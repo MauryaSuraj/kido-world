@@ -1,35 +1,12 @@
 @extends('layouts.admin')
 
 @section('content-admin')
-{{--<div class="container">--}}
-{{--    <div class="row justify-content-center">--}}
-{{--        <div class="col-md-8">--}}
-{{--            <div class="card">--}}
-{{--                <div class="card-header">Dashboard</div>--}}
-
-{{--                <div class="card-body">--}}
-{{--                    @if (session('status'))--}}
-{{--                        <div class="alert alert-success" role="alert">--}}
-{{--                            {{ session('status') }}--}}
-{{--                        </div>--}}
-{{--                    @endif--}}
-
-{{--                    You are logged in!--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--    </div>--}}
-{{--</div>--}}
-
-<!-- Section: Intro -->
 <section class="mt-md-4 pt-md-2 mb-5 pb-4">
 
     <!-- Grid row -->
     <div class="row">
-
         <!-- Grid column -->
         <div class="col-xl-3 col-md-6 mb-xl-0 mb-4">
-
             <!-- Card -->
             <div class="card card-cascade cascading-admin-card">
 
@@ -41,7 +18,6 @@
                         <h4 class="font-weight-bold dark-grey-text">2000$</h4>
                     </div>
                 </div>
-
                 <!-- Card content -->
                 <div class="card-body card-body-cascade">
                     <div class="progress mb-3">

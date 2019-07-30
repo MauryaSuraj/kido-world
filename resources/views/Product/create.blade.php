@@ -19,7 +19,7 @@
                                 <div class="form-group row">
                                     <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Product Type') }}</label>
                                     <div class="col-md-6">
-                                        <select name="product_type" id="product_type"  class="form-control text-success bg-primary">
+                                        <select name="product_type" id="product_type"  class="form-control d-block">
                                             <option value="simple">Simple</option>
                                             <option value="variable">Variable</option>
                                             <option value="External">External</option>
@@ -30,7 +30,7 @@
                                 <div class="form-group row">
                                     <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Category Name') }}</label>
                                     <div class="col-md-6">
-                                        <select id="category_id" type="text" class="mdb-select md-form @error('category_id') is-invalid @enderror" name="category_id" value="{{ old('category_id') }}" required autocomplete="category_id" autofocus>
+                                        <select id="category_id" type="text" class="d-block form-control @error('category_id') is-invalid @enderror" name="category_id" value="{{ old('category_id') }}" required autocomplete="category_id" autofocus>
                                             <option value="0" disabled >Select an Option</option>
                                             @foreach($categories as $category)
                                                 <option value="{{ $category->id }}">{{ $category->category_name }}</option>
@@ -41,17 +41,17 @@
                                 <div class="form-group row">
                                     <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Manufacturer Name') }}</label>
                                     <div class="col-md-6">
-                                        <select name="manufacturer_id" id="manufacturer_id" class="form-control">
-                                            <option value="simple">Simple</option>
-                                            <option value="variable">Variable</option>
-                                            <option value="External">External</option>
+                                        <select name="manufacturer_id" id="manufacturer_id" class="form-control d-block">
+                                            @foreach($manu as $fec)
+                                            <option value="{{ $fec->id }}">{{ $fec->name }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="flash_sale" class="col-md-4 col-form-label text-md-right">{{ __('Flash Sale') }}</label>
                                     <div class="col-md-6">
-                                        <select name="flash_sale" id="flash_sale" class="form-control">
+                                        <select name="flash_sale" id="flash_sale" class="form-control d-block">
                                             <option value="Yes">Yes</option>
                                             <option value="No">No</option>
                                         </select>
@@ -60,7 +60,7 @@
                                 <div class="form-group row">
                                     <label for="special" class="col-md-4 col-form-label text-md-right">{{ __('Special') }}</label>
                                     <div class="col-md-6">
-                                        <select name="special" id="special" class="form-control">
+                                        <select name="special" id="special" class="form-control d-block">
                                             <option value="Yes">Yes</option>
                                             <option value="No">No</option>
                                         </select>
@@ -173,7 +173,7 @@
                                 <div class="form-group row">
                                     <label for="product_weight" class="col-md-4 col-form-label text-md-right">{{ __('IS Featured') }}</label>
                                     <div class="col-md-6">
-                                        <select name="isFeatured" id="isFeatured">
+                                        <select name="isFeatured" class="form-control d-block" id="isFeatured">
                                             <option value="yes">yes</option>
                                             <option value="no">no</option>
                                         </select>
@@ -183,7 +183,7 @@
                                 <div class="form-group row">
                                     <label for="product_status" class="col-md-4 col-form-label text-md-right">{{ __('Product status') }}</label>
                                     <div class="col-md-6">
-                                        <select name="product_status" id="product_status">
+                                        <select name="product_status" class="form-control d-block" id="product_status">
                                             <option value="active">active</option>
                                             <option value="inactive">inactive</option>
                                         </select>
@@ -236,7 +236,6 @@
                             </form>
                 </div>
             </div>
-
         </div>
     </section>
 @endsection

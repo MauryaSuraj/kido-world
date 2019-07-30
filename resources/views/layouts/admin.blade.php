@@ -11,16 +11,55 @@
     <link rel="stylesheet" href="{{ asset('css/dash/bootstap.css') }}">
     <link href="{{ asset('css/dash/dashboard.css') }}" rel="stylesheet">
     <!-- Material Design Bootstrap -->
+    <style>
+        #sidebar-wrapper {
+            min-height: 100vh;
+            margin-left: -15rem;
+            -webkit-transition: margin .25s ease-out;
+            -moz-transition: margin .25s ease-out;
+            -o-transition: margin .25s ease-out;
+            transition: margin .25s ease-out;
+        }
+
+        #sidebar-wrapper .sidebar-heading {
+            padding: 0.875rem 1.25rem;
+            font-size: 1.2rem;
+        }
+
+        #sidebar-wrapper .list-group {
+            width: 15rem;
+        }
+
+        #page-content-wrapper {
+            min-width: 100vw;
+        }
+
+        #wrapper.toggled #sidebar-wrapper {
+            margin-left: 0;
+        }
+
+        @media (min-width: 768px) {
+            #sidebar-wrapper {
+                margin-left: 0;
+            }
+
+            #page-content-wrapper {
+                min-width: 0;
+                width: 100%;
+            }
+
+            #wrapper.toggled #sidebar-wrapper {
+                margin-left: -15rem;
+            }
+        }
+    </style>
 </head>
 
 <body class="fixed-sn white-skin">
 
 <!-- Main Navigation -->
 <header>
-
-    @include('inc.admin_sidebar')
     @include('inc.admin_top_navbar')
-
     <!-- Fixed button -->
     <div class="fixed-action-btn clearfix d-none d-xl-block" style="bottom: 45px; right: 24px;">
 
@@ -30,9 +69,9 @@
 
         <ul class="list-unstyled">
             <li><a class="btn-floating red"><i class="fas fa-star"></i></a></li>
-            <li><a class="btn-floating yellow darken-1"><i class="fas fa-user"></i></a></li>
+            <li><a href="{{ route('Profile.show', auth()->user()->id) }}" class="btn-floating yellow darken-1"><i class="fas fa-user"></i></a></li>
             <li><a class="btn-floating green"><i class="fas fa-envelope"></i></a></li>
-            <li><a class="btn-floating blue"><i class="fas fa-shopping-cart"></i></a></li>
+            <li><a href="{{ route('product.index') }}" class="btn-floating blue"><i class="fas fa-shopping-cart"></i></a></li>
         </ul>
 
     </div>
@@ -45,14 +84,21 @@
 <main>
 
     <div class="container-fluid">
-        @yield('content-admin')
+        <div class="row">
+            <div class="col-md-3">
+                @include('inc.admin_sidebar')
+            </div>
+            <div class="col-md-9">
+                @yield('content-admin')
+            </div>
+        </div>
     </div>
 
 </main>
 <!-- Main layout -->
 
 <!-- Footer -->
-<footer class="page-footer pt-0 mt-5 rgba-stylish-light">
+<footer class="page-footer pt-0 mt-5   rgba-stylish-light">
 
     <!-- Copyright -->
     <div class="footer-copyright py-3 text-center">

@@ -11,35 +11,41 @@
         </div>
         <div class="card">
             <div class="card-header bg-white">
-                <a href="{{ route('category.create') }}" class="btn btn-outline-success float-right">Add Product Category</a>
+                <a href="{{ route('product.create') }}" class="btn btn-outline-success float-right">Add Product </a>
             </div>
             <div class="card-body">
                 <table class="table">
                     <thead class="blue-grey lighten-4">
                     <tr>
                         <th>#</th>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th>Icon </th>
-                        <th>Header Image </th>
+                        <th>product Name</th>
+                        <th>Category</th>
+                        <th>Product Image</th>
+                        <th>Product Quantity</th>
                         <th>
-                            Action
+                            Status
                         </th>
+                        <th>
+                            Uploaded
+                        </th>
+                        <th> Action </th>
                     </tr>
                     </thead>
                     <tbody>
-                    @if(count($cat_s) > 0)
-                    @foreach($cat_s as $cat)
+                    @if(count($product_lists) > 0)
+                    @foreach($product_lists as $product)
                     <tr>
-                        <th scope="row">{{ $cat->id }}</th>
-                        <td>{{ $cat->category_name }}</td>
-                        <td>{{ $cat->category_des }}</td>
-                        <td><img src="{{ url('images/').'/category/cat_icon/'.$cat->cat_image }}" alt="" style="height: 150px; width: 150px;"> </td>
-                        <td><img src="{{ url('images/').'/category/cat_header_image/'.$cat->cat_header_image }}" alt="" style="height: 150px; width: 150px;">
-                        </td>
+                        <th scope="row">{{ $product->id }}</th>
+                        <td>{{ $product->product_name }}</td>
+                        <td>{{ $product->category_name }}</td>
+                        <td><img src="{{ url('images/').'/product/product_main_image/'.$product->product_image }}" alt="" style="height: 150px; width: 150px;"> </td>
+                        <td>{{ $product->quantity }}</td>
+                        <td> {{ $product->status }} </td>
+                        <td> {{ $product->created_at }} </td>
                         <td>
-                            <a href="{{ route('category.edit', $cat->id) }}"><i class="far fa-edit fa-2x text-success"></i></a>
-                            <a href="{{ route('category.destroy', $cat->id) }}"><i class="fas fa-trash-alt fa-2x text-danger"></i></a>
+                            <a href="{{ route('product.edit', $product->id) }}"><i class="far fa-edit fa-1x text-success"></i></a>
+                            <a href="{{ route('product.destroy', $product->id) }}"><i class="fas fa-trash-alt fa-1x text-danger"></i></a>
+                            <a href="{{ route('product.show', $product->id) }}"><i class="fas fa-eye fa-1x text-primary"></i></a>
                         </td>
                     </tr>
                     @endforeach

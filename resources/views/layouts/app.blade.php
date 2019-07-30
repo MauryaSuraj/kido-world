@@ -6,21 +6,40 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>Kid-o-world</title>
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
-
-    <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
-
-    <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-
-    <!-- Styles -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.css" integrity="sha256-PF6MatZtiJ8/c9O9HQ8uSUXr++R9KBYu4gbNG5511WE=" crossorigin="anonymous" />
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
     <div id="app">
+        <div class="bg-up">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md">
+                        <ul class="d-flex">
+                            <li class="list"><i class="fas fa-home text-white"></i></li>
+                            <li class="list">About </li>
+                            <li class="list">Blog</li>
+                            <li class="list">contact</li>
+                        </ul>
+                    </div>
+                    <div class="col-md">
+                        <ul class="d-flex">
+                            <li class="list">Belts</li>
+                            <li class="list">Kids Mojari</li>
+                            <li class="list"> Suspender</li>
+                            <li class="list">Sunglasses</li>
+                            <li class="list"> Socks</li>
+                            <li class="list">Baby Caps</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
