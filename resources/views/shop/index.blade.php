@@ -17,11 +17,11 @@
                 @foreach($products as $product)
                 <div class="col-sm col-md-6 col-lg-3 ftco-animate">
                     <div class="product">
-                        <a href="#" class="img-prod"><img class="img-fluid" src="{{ url('images/').'/product/product_main_image/'.$product->product_image }}" alt="">
+                        <a href="{{ route('product.show', $product->slug) }}" class="img-prod"><img class="img-fluid" src="{{ url('images/').'/product/product_main_image/'.$product->product_image }}" alt="">
                             <span class="status">Best Sellers</span>
                         </a>
                         <div class="text py-3 px-3">
-                            <h3><a href="#">{{ $product->product_name }}</a></h3>
+                            <h3><a href="{{ route('product.show', $product->slug) }}">{{ $product->product_name }}</a></h3>
                             <div class="d-flex">
                                 <div class="pricing">
                                     <p class="price"><span>Rs. {{ $product->product_price }}</span></p>
@@ -38,8 +38,31 @@
                             </div>
                             <hr>
                             <p class="bottom-area d-flex">
-                                <a href="#" class="add-to-cart"><span>Add to cart <i class="ion-ios-add ml-1"></i></span></a>
-                                <a href="#" class="ml-auto"><span><i class="ion-ios-heart-empty"></i></span></a>
+                            <div>
+                                <form method="POST" action="{{ route('addToCart') }}">
+                                    @csrf
+                                    <input type="hidden" id="product_id" name="product_id" value="{{ $product->id }}">
+                                    <input type="hidden" id="product_quantity" name="product_quantity" value="1">
+                                    <input type="hidden" id="product_price" name="product_price" value="{{ $product->product_price }}">
+                                    <button type="submit" class="add-to-cart" style="background: transparent; border: none;">
+                                        <span>Add to cart <i class="ion-ios-add ml-1"></i></span>
+                                    </button>
+                                </form>
+                            </div>
+                            <div>
+
+                                @if(\App\Wishlist::checkWishList($product->id) == 0)
+                                <form method="POST" action="{{ route('wishlist') }}">
+                                    @csrf
+                                    <input type="hidden" id="product_id" name="product_id" value="{{ $product->id }}">
+                                    <button type="submit" class="add-to-cart" style="background: transparent; border: none;">
+                                        <span><i class="ion-ios-heart-empty"></i></span>
+                                    </button>
+                                </form>
+                                    @else
+                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false" width="1em" height="1em" style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);" preserveAspectRatio="xMidYMid meet" viewBox="0 0 64 64"><path d="M46.1 2C39.8 2 34.5 5.6 32 10.8 29.5 5.6 24.2 2 17.9 2 9.2 2 2 9.4 2 17.9 2 32.4 32 62 32 62s30-29.6 30-44.1C62 9.4 54.8 2 46.1 2z" fill="#ff5a79"/></svg>
+                                @endif
+                            </div>
                             </p>
                         </div>
                     </div>

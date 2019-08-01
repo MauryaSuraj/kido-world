@@ -4,8 +4,8 @@
         <div class="container">
             <div class="row no-gutters slider-text align-items-center justify-content-center">
                 <div class="col-md-9 ftco-animate text-center">
-                    <h1 class="mb-0 bread">Product Single</h1>
-                    <p class="breadcrumbs"><span class="mr-2"><a href="index.html">Home</a></span> <span class="mr-2"><a href="index.html">Product</a></span> <span>Product Single</span></p>
+                    <h1 class="mb-0 bread">{{ $products->product_name }}</h1>
+                    <p class="breadcrumbs"><span class="mr-2"><a href="/">Home</a></span> <span class="mr-2"><a href="/product">Product</a></span> <span>{{ $products->product_name }}</span></p>
                 </div>
             </div>
         </div>
@@ -53,7 +53,18 @@
 	             	</span>
                         </div>
                     </div>
-                    <p><a href="cart.html" class="btn btn-primary py-3 px-5">Add to Cart</a></p>
+                    <p>
+                    <form method="POST" action="{{ route('addToCart') }}">
+                        @csrf
+                        <input type="hidden" id="product_id" name="product_id" value="{{ $products->id }}">
+                        <input type="hidden" id="product_quantity" name="product_quantity" value="1">
+                        <input type="hidden" id="product_price" name="product_price" value="{{ $products->product_price }}">
+                        <button type="submit" class="btn btn-primary py-3 px-5" style="color: black;">
+                            Add to cart
+                        </button>
+                    </form>
+
+                    </p>
                 </div>
             </div>
         </div>

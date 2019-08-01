@@ -9,12 +9,12 @@ class FrontProductController extends Controller
 {
     public function index(){
         $products = DB::table('products')
-            ->paginate(1);
+            ->paginate(12);
       return  view('shop.index',compact('products'));
     }
     public function show($id){
         $products = DB::table('products')
-            ->where('id', $id)
+            ->where('slug','=', $id)
             ->get()->first();
         return view('shop.show',compact('products'));
     }

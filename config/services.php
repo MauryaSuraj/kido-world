@@ -33,7 +33,15 @@ return [
     'sparkpost' => [
         'secret' => env('SPARKPOST_SECRET'),
     ],
+    'instamojo' => [
 
+        'api_key'       => env('IM_API_KEY'),
+
+        'auth_token'    => env('IM_AUTH_TOKEN'),
+
+        'url'           => env('IM_URL'),
+
+    ],
     'stripe' => [
         'model' => App\User::class,
         'key' => env('STRIPE_KEY'),

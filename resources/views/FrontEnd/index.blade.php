@@ -93,7 +93,16 @@
                             </div>
                             <hr>
                             <p class="bottom-area d-flex">
-                                <a href="#" class="add-to-cart"><span>Add to cart <i class="ion-ios-add ml-1"></i></span></a>
+                            <form method="POST" action="{{ route('addToCart') }}">
+                                @csrf
+                                <input type="hidden" id="product_id" name="product_id" value="{{ $product->id }}">
+                                <input type="hidden" id="product_quantity" name="product_quantity" value="1">
+                                <input type="hidden" id="product_price" name="product_price" value="{{ $product->product_price }}">
+                                <button type="submit" class="add-to-cart" style="background: transparent; border: none;">
+                                    <span>Add to cart <i class="ion-ios-add ml-1"></i></span>
+                                </button>
+                            </form>
+{{--                                <a href="#" class="add-to-cart"><span>Add to cart <i class="ion-ios-add ml-1"></i></span></a>--}}
                                 <a href="#" class="ml-auto"><span><i class="ion-ios-heart-empty"></i></span></a>
                             </p>
                         </div>

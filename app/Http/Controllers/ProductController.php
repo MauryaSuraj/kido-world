@@ -126,6 +126,7 @@ class ProductController extends Controller
                 'status' => $request->input('product_status'),
                 'quantity' => $request->input('quantity'),
                 'available' => 1,
+                'slug' => Str::slug($request->input('product_name')),
                 'meta_title' => $meta_title,
                 'meta_keywords' => $meta_tags,
                 'meta_description' => $meta_desc,

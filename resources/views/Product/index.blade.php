@@ -12,6 +12,13 @@
         <div class="card">
             <div class="card-header bg-white">
                 <a href="{{ route('product.create') }}" class="btn btn-outline-success float-right">Add Product </a>
+                <form action="{{ route('import') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <input type="file" name="file" class="form-control">
+                    <br>
+                    <button class="btn btn-success">Import Product </button>
+                    <a class="btn btn-warning" href="{{ route('export') }}">Export  Product</a>
+                </form>
             </div>
             <div class="card-body">
                 <table class="table">
