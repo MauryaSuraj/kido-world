@@ -13,11 +13,13 @@
 
 Route::get('/','FrontEnd@index');
 Auth::routes();
-Route::resource('admin/product/category', 'ProductCategoryController');
-Route::resource('admin/manufacturer', 'ManufacturerController');
-Route::resource('admin/product','ProductController');
-Route::resource('admin/Profile', 'AdminProfileController');
-Route::resource('/product', 'FrontProductController');
+
+Route::resource('/admin/product/category', 'ProductCategoryController');
+Route::resource('/admin/manufacturer', 'ManufacturerController');
+Route::resource('/admin/product','ProductController');
+Route::resource('/admin/Profile', 'AdminProfileController');
+Route::get('/admin/order', 'OrderController@index')->name('order');
+Route::resource('/shop', 'FrontProductController');
 Route::get('/cart', 'ShoppingCartController@index')->name('cart');
 Route::post('/addToCart', 'ShoppingCartController@addTocart')->name('addToCart');
 Route::get('/removeItem/{id}','ShoppingCartController@removeItem')->name('removeItem');
@@ -31,7 +33,9 @@ Route::post('/shipping' ,'CheckOutController@shipping')->name('shipping');
 Route::post('pay', 'PayController@pay');
 Route::get('pay-success', 'PayController@success');
 Route::get('buyer','UserController@index')->name('buyer');
-
-Route::get('/buyer/wishlist' ,'UserController');
-Route::get('/buyer/order' ,'UserController');
-Route::get('/buyer/profile' , 'UserController');
+Route::get('/buyer/wishlist' ,'UserController@wishlist')->name('buyer_wishlist');
+Route::get('/buyer/order' ,'UserController@order')->name('buyer_order');
+Route::get('/buyer/profile' , 'UserController@profile')->name('buyer_profile');
+Route::get('/buyer/cart' ,'UserController@cart')->name('buyer_cart');
+Route::get('/buyer/profile/{id}/edit', 'UserController@profile_edit')->name('buyer_profile_edit');
+Route::post('/search','SearchController@search')->name('search');

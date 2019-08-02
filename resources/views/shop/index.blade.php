@@ -10,18 +10,17 @@
             </div>
         </div>
     </div>
-
     <section class="ftco-section bg-light">
         <div class="container-fluid">
             <div class="row">
                 @foreach($products as $product)
                 <div class="col-sm col-md-6 col-lg-3 ftco-animate">
                     <div class="product">
-                        <a href="{{ route('product.show', $product->slug) }}" class="img-prod"><img class="img-fluid" src="{{ url('images/').'/product/product_main_image/'.$product->product_image }}" alt="">
+                        <a href="{{ route('shop.show', $product->slug) }}" class="img-prod"><img class="img-fluid" src="{{ url('images/').'/product/product_main_image/'.$product->product_image }}" alt="">
                             <span class="status">Best Sellers</span>
                         </a>
                         <div class="text py-3 px-3">
-                            <h3><a href="{{ route('product.show', $product->slug) }}">{{ $product->product_name }}</a></h3>
+                            <h3><a href="{{ route('shop.show', $product->slug) }}">{{ $product->product_name }}</a></h3>
                             <div class="d-flex">
                                 <div class="pricing">
                                     <p class="price"><span>Rs. {{ $product->product_price }}</span></p>

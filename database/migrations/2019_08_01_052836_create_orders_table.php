@@ -15,10 +15,14 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->unsignedBigInteger('customer_id');
+            $table->unsignedBigInteger('product_id');
+            $table->string('payment_status');
+            $table->string('payment_id');
+            $table->string('order_status');
             $table->timestamps();
         });
     }
-
     /**
      * Reverse the migrations.
      *

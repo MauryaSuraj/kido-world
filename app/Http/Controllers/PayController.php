@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\CheckOut;
+use App\ShoppingCart;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PayController extends Controller
 {
@@ -41,7 +45,6 @@ class PayController extends Controller
                 config('services.instamojo.auth_token'),
                 config('services.instamojo.url')
             );
-
             $response = $api->paymentRequestStatus(request('payment_request_id'));
 
             if( !isset($response['payments'][0]['status']) ) {
@@ -52,7 +55,43 @@ class PayController extends Controller
         }catch (\Exception $e) {
             dd('payment failed');
         }
-        dd($response);
+        $phone = $response['phone'];
+        $payment_id = $response['id'];
+        $email = $response['email'];
+        $buyer_name = $response['buyer_name'];
+        $amount = $response['amount'];
+        $status = $response['status'];
+        $sms_status = $response['sms_status'];
+        $email_status = $response['email_status'];
+
+        $payment_enter = DB::table('payment')
+            ->insert([
+               'phone' => $phone,
+               'email' => $email,
+               'buyer_name' => $buyer_name,
+               'amount' => $amount,
+               'status' => $status,
+               'sms_status' => $sms_status,
+               'email_status' => $email_status,
+               'payments_id' => $payment_id,
+               'created_at' => Carbon::now()->toDateString(),
+               'updated_at' => Carbon::now()->toDateTimeString(),
+            ]);
+        DB::table('orders')
+            ->insert([
+               'customer_id' => auth()->user()->id,
+               'product_id' => serialize(CheckOut::getProductIdarray()->toArray()),
+               'payment_status' => $status,
+               'payment_id' => $payment_id,
+               'order_status' => 'pending',
+               'created_at' => Carbon::now()->toDateString(),
+               'updated_at' => Carbon::now()->toDateTimeString(),
+            ]);
+        if ($status == 'Completed')
+        {
+            return view('payment');
+        }
+
     }
 
 }

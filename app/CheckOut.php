@@ -15,6 +15,13 @@ class CheckOut extends Model
         }
         return $check_for_item_in_cart;
     }
+    public static function getProductIdarray(){
+        if (Auth::user()){
+            $user_id = \auth()->user()->id;
+            $check_for_item_in_cart = DB::table('shopping_carts')->where('user_id', '=', $user_id)->pluck('product_id');
+        }
+        return $check_for_item_in_cart;
+    }
 
     public static function cart_details(){
         $cart_items_details = array();
@@ -29,7 +36,6 @@ class CheckOut extends Model
         }
        return $cart_items_details;
     }
-
     public static function cart_id_details(){
         $user_id = \auth()->user()->id;
         $cart_id  = unserialize(DB::table('shipping')

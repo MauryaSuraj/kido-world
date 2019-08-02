@@ -11,7 +11,7 @@
         </div>
         <div class="card">
             <div class="card-header bg-white">
-                <a href="{{ route('product.create') }}" class="btn btn-outline-success float-right">Add Product </a>
+                <a href="/admin/product/create" class="btn btn-outline-success float-right">Add Product </a>
                 <form action="{{ route('import') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <input type="file" name="file" class="form-control">

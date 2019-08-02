@@ -7,6 +7,13 @@
 {{--                <h3 class="v">Modist - Time to get dress</h3>--}}
 {{--                <h3 class="vr">Since - 1985</h3>--}}
                 <div class="col-md-11 ftco-animate text-center">
+                    <form method="post" action="{{ route('search') }}">
+                        @csrf
+                        <div class="d-flex">
+                            <input type="text" class="form-control" required name="search" id="search">
+                            <button class="btn btn-primary" type="submit">Search</button>
+                        </div>
+                    </form>
                     <h1>Kids Accessories </h1>
                     <h2><span>Wear Your Dress</span></h2>
                 </div>

@@ -15,6 +15,7 @@ class CreatePaymentConfirmsTable extends Migration
     {
         Schema::create('payment_confirms', function (Blueprint $table) {
             $table->bigIncrements('id');
+//            $table->
             $table->timestamps();
         });
     }

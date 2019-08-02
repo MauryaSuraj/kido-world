@@ -21,6 +21,14 @@
     <link rel="stylesheet" href="{{ asset('css/icomoon.css') }}">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <style>
+        .navbar {
+            padding: 15px 10px;
+            background: #fff !important;
+            border: none;
+            border-radius: 0;
+            margin-bottom: 40px;
+            box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+        }
         body {
             font-family: 'Poppins', sans-serif;
             background: #fafafa;

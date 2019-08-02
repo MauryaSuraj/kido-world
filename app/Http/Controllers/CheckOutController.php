@@ -53,11 +53,10 @@ class CheckOutController extends Controller
     }
 
     public function shipping(Request $request){
-//       $cart_id =  implode(' , ', CheckOut::getCartIdarray()->toArray());
         $strFromArr = serialize(CheckOut::getCartIdarray()->toArray());
-       $subtotal = ShoppingCart::subTotal();
-       $delivery = ShoppingCart::deliveryCharge();
-       $total = ShoppingCart::grandTotal();
+        $subtotal = ShoppingCart::subTotal();
+        $delivery = ShoppingCart::deliveryCharge();
+        $total = ShoppingCart::grandTotal();
          $request->validate([
             'first_name' => ['string', 'required'],
             'last_name' => ['string', 'required'],
