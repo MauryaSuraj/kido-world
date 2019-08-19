@@ -8,18 +8,18 @@
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item"><a href="/" class="nav-link">Home</a></li>
                 <li class="nav-item dropdown active">
-                    <a class="nav-link dropdown-toggle" href="/product" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Shop</a>
+                    <a class="nav-link" href="/shop" id="dropdown04"  aria-haspopup="true" aria-expanded="false">Shop</a>
                     <div class="dropdown-menu" aria-labelledby="dropdown04">
                         <?php $cats =  \Illuminate\Support\Facades\DB::table('product_categories')->get();
                         ?>
                         @foreach($cats as $cat)
-                                <a class="dropdown-item" href="{{ $cat->id }}">{{ $cat->category_name }}</a>
+                                <a class="dropdown-item" href="/product/category/{{ $cat->slug }}">{{ $cat->category_name }}</a>
                          @endforeach
                     </div>
                 </li>
-                <li class="nav-item"><a href="#" class="nav-link">About</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">Blog</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">Contact</a></li>
+                <li class="nav-item"><a href="{{ route('about') }}" class="nav-link">About</a></li>
+{{--                <li class="nav-item"><a href="#" class="nav-link">Blog</a></li>--}}
+                <li class="nav-item"><a href="{{ route('contact') }}" class="nav-link">Contact</a></li>
                 <li class="nav-item cta cta-colored"><a href="{{ route('cart') }}" class="nav-link"><span class="icon-shopping_cart"></span>[ @if(\App\ShoppingCart::itemCount() != null ) {{ \App\ShoppingCart::itemCount() }} @endif ] </a></li>
                 @guest
                     <li class="nav-item">
@@ -37,6 +37,9 @@
                         </a>
 
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                             <a class="dropdown-item" href="{{ route('buyer') }}">
+                                {{ __('Profile') }}
+                            </a>
                             <a class="dropdown-item" href="{{ route('logout') }}"
                                onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

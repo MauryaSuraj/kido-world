@@ -2,12 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class ManufacturerController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['auth', 'verified']);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -16,6 +21,9 @@ class ManufacturerController extends Controller
     public function index()
     {
         $manu_s = DB::table('manufacturers')->get();
+        if (User::adminProfileCheck() == 0){
+            return redirect()->to('/');
+        }else
         return view('Manufacturer.index', compact('manu_s'));
     }
 
@@ -26,6 +34,9 @@ class ManufacturerController extends Controller
      */
     public function create()
     {
+        if (User::adminProfileCheck() == 0){
+            return redirect()->to('/');
+        }else
         return view('Manufacturer.create');
     }
 
@@ -82,6 +93,9 @@ class ManufacturerController extends Controller
     public function edit($id)
     {
         $manu = DB::table('manufacturers')->where('id', $id)->first();
+        if (User::adminProfileCheck() == 0){
+            return redirect()->to('/');
+        }else
         return view('Manufacturer.edit', compact('manu'));
     }
 

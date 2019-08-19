@@ -5,8 +5,10 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable;
 
@@ -16,7 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+       'name', 'email', 'password','phone',
     ];
 
     /**
@@ -36,4 +38,19 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public static function adminProfileCheck(){
+         if (Auth::check())
+         {
+             $id = \auth()->user()->id;
+             $check = DB::table('users')
+                 ->where('id', '=', $id)
+                 ->where('type', '=', 'admin')
+                 ->get()->count();
+         }
+         else{
+             $check = 0;
+         }
+         return $check;
+    }
 }

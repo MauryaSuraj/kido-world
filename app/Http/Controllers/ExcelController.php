@@ -9,6 +9,10 @@ use Maatwebsite\Excel\Facades;
 
 class ExcelController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['auth', 'verified']);
+    }
     public function importExportView(){
 //        return view('import');
     }

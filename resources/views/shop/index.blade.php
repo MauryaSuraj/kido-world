@@ -1,11 +1,12 @@
-@extends('layouts.pageLayout')
+@extends('layouts.pageLayout') 
 @section('content')
-    <div class="hero-wrap hero-bread" style="background-image: url('images/bg_6.jpg');">
+    <div class="hero-wrap hero-bread" style="background-image: url('{{ url('images/').'/shop.png' }}');">
         <div class="container">
             <div class="row no-gutters slider-text align-items-center justify-content-center">
                 <div class="col-md-9 ftco-animate text-center">
-                    <h1 class="mb-0 bread">Collection</h1>
-                    <p class="breadcrumbs"><span class="mr-2"><a href="/">Home</a></span> <span>Product</span></p>
+                    <!--<h1 class="mb-0 bread">Collection</h1>-->
+                    <br><br><br>
+                    <!--<p class="breadcrumbs"><span class="mr-2"><a href="#">Home</a></span> <span>Product</span></p>-->
                 </div>
             </div>
         </div>
@@ -13,6 +14,7 @@
     <section class="ftco-section bg-light">
         <div class="container-fluid">
             <div class="row">
+                @if(count($products) > 0)
                 @foreach($products as $product)
                 <div class="col-sm col-md-6 col-lg-3 ftco-animate">
                     <div class="product">
@@ -37,39 +39,60 @@
                             </div>
                             <hr>
                             <p class="bottom-area d-flex">
-                            <div>
-                                <form method="POST" action="{{ route('addToCart') }}">
-                                    @csrf
-                                    <input type="hidden" id="product_id" name="product_id" value="{{ $product->id }}">
-                                    <input type="hidden" id="product_quantity" name="product_quantity" value="1">
-                                    <input type="hidden" id="product_price" name="product_price" value="{{ $product->product_price }}">
-                                    <button type="submit" class="add-to-cart" style="background: transparent; border: none;">
-                                        <span>Add to cart <i class="ion-ios-add ml-1"></i></span>
-                                    </button>
-                                </form>
-                            </div>
-                            <div>
-
-                                @if(\App\Wishlist::checkWishList($product->id) == 0)
-                                <form method="POST" action="{{ route('wishlist') }}">
-                                    @csrf
-                                    <input type="hidden" id="product_id" name="product_id" value="{{ $product->id }}">
-                                    <button type="submit" class="add-to-cart" style="background: transparent; border: none;">
-                                        <span><i class="ion-ios-heart-empty"></i></span>
-                                    </button>
-                                </form>
-                                    @else
-                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false" width="1em" height="1em" style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);" preserveAspectRatio="xMidYMid meet" viewBox="0 0 64 64"><path d="M46.1 2C39.8 2 34.5 5.6 32 10.8 29.5 5.6 24.2 2 17.9 2 9.2 2 2 9.4 2 17.9 2 32.4 32 62 32 62s30-29.6 30-44.1C62 9.4 54.8 2 46.1 2z" fill="#ff5a79"/></svg>
-                                @endif
+                             <div class="container" style="margin-left: -1rem !important; ">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <form method="POST" action="{{ route('addToCart') }}">
+                                            @csrf
+                                            <input type="hidden" id="product_id" name="product_id" value="{{ $product->id }}">
+                                            <input type="hidden" id="product_quantity" name="product_quantity" value="1">
+                                            <input type="hidden" id="product_price" name="product_price" value="{{ $product->product_price }}">
+                                            <button type="submit" class="add-to-cart btn btn-outline-primary" >
+                                                <span>Add to cart <i class="ion-ios-add ml-1"></i></span>
+                                            </button>
+                                        </form>
+                                    </div>
+                                    <div class="col-md-6">
+                                        @if(\Illuminate\Support\Facades\Auth::check())
+                                            @if(\App\Wishlist::checkWishList($product->id) == 0)
+                                                <form method="POST" action="{{ route('wishlist') }}">
+                                                    @csrf
+                                                    <input type="hidden" id="product_id" name="product_id" value="{{ $product->id }}">
+                                                    <button type="submit" class="add-to-cart" style="background: transparent; border: none;">
+                                                        <span><i class="ion-ios-heart-empty"></i></span>
+                                                    </button>
+                                                </form>
+                                            @else
+                                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false" width="1em" height="1em" style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);" preserveAspectRatio="xMidYMid meet" viewBox="0 0 64 64"><path d="M46.1 2C39.8 2 34.5 5.6 32 10.8 29.5 5.6 24.2 2 17.9 2 9.2 2 2 9.4 2 17.9 2 32.4 32 62 32 62s30-29.6 30-44.1C62 9.4 54.8 2 46.1 2z" fill="#ff5a79"/></svg>
+                                            @endif
+                                        @else
+                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                                                Add to Wishlist
+                                            </button>
+                                        @endif
+                                    </div>
+                                </div>
                             </div>
                             </p>
                         </div>
                     </div>
                 </div>
                 @endforeach
+                    @else
+                <p>
+                    No Products Found Based On Your Search
+                </p>
+                    @endif
             </div>
     <div class="d-flex justify-content-center">
-        {{ $products->links() }}
+       
+        
+        @if( url()->current() == "http://kidoworldstore.in/search")
+        
+    @else
+     {{ $products->links() }}
+     @endif
+    
     </div>
             <div class="row mt-5">
                 <div class="col text-center">

@@ -16,8 +16,6 @@
         <li>
             <a href="{{ route('buyer_profile') }}"><img src="https://image.flaticon.com/icons/svg/138/138691.svg" class="mx-2" style="height: 30px;" alt=""> Profile</a>
         </li>
-        <li>
-            <a href="#"><img src="https://image.flaticon.com/icons/svg/1716/1716282.svg" class="mx-2" style="height: 30px;" alt=""> Logout</a>
-        </li>
+        
     </ul>
 </nav>

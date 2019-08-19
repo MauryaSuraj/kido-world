@@ -35,7 +35,7 @@
                                         <td class="image-prod"><div class="img" style="background-image:url({{ url('images/').'/product/product_main_image/'.$cart->product_image }});"></div></td>
                                         <td class="product-name">
                                             <h3>{{ $cart->product_name }}</h3>
-                                            <p>{{ \Illuminate\Support\Str::limit($cart->product_description,50,'...') }}</p>
+                                            
                                         </td>
                                         <td class="price">Rs. {{ $cart->product_price }}</td>
                                         <td class="quantity">

@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 
 class DynamicPagesController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['auth', 'verified']);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +17,7 @@ class DynamicPagesController extends Controller
      */
     public function index()
     {
-        //
+
     }
 
     /**

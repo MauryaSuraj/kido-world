@@ -1,9 +1,8 @@
-<section class="ftco-section-parallax">
-    <div class="parallax-img d-flex align-items-center">
+<section class="ftco-section-parallax" style="padding: 0px !important;">
+    <div class="parallax-img d-flex align-items-center" style="padding: 0px !important;">
         <div class="container">
             <div class="row d-flex justify-content-center py-5">
                 <div class="col-md-7 text-center heading-section ftco-animate">
-                    <h1 class="big">Subscribe</h1>
                     <h2>Subcribe to our Newsletter</h2>
                     <div class="row d-flex justify-content-center mt-5">
                         <div class="col-md-8">

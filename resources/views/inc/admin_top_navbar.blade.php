@@ -3,7 +3,7 @@
 <nav class="navbar fixed-top navbar-expand-lg scrolling-navbar double-nav">
 
     <div class="breadcrumb-dn mr-auto ml-2">
-        <a href="/home">
+        <a href="{{ route('home') }}">
             <img src="{{ url('images/').'/logo.png' }}" alt="" style="height: 40px;">
         </a>
     </div>

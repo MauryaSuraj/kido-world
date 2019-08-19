@@ -1,95 +1,227 @@
 @extends('layouts.front')
 @section('content')
-    <div class="hero-wrap js-fullheight" style="background-image: url('https://images.pexels.com/photos/1571872/pexels-photo-1571872.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'); background-size: cover;">
-        <div class="overlay"></div>
+<style>
+    @media only screen and (max-width: 600px) {
+  .ftco-produc .col-md-2{
+       width : 50% !important;
+  }
+  
+  .bottom-area .col-md, .bottom,  .bottom-area .col-sm-6, .product-featured .col-md, .latest .col-sm, .latest .col-md-6, .latest .col-lg{
+   width : 50% !important;
+  }
+  .hero-wrap 
+  {
+      height: 17vh !important;
+  }
+  .search{
+      padding-bottom: 12rem !important;
+  }
+  
+}
+</style>
+    <div class="hero-wrap " style="background-image: linear-gradient(to right, rgba(255, 0, 204, 0.47), rgba(51,51,153,0)), url('{{ url('images/').'/banner3.jpg' }}'); height: 55vh; background-size: 100% !important; ">
+{{--        <div class="overlay"></div>--}}
         <div class="container">
             <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-center">
-{{--                <h3 class="v">Modist - Time to get dress</h3>--}}
-{{--                <h3 class="vr">Since - 1985</h3>--}}
-                <div class="col-md-11 ftco-animate text-center">
-                    <form method="post" action="{{ route('search') }}">
+                <div class="col-md-6 ftco-animate text-center " style="padding-bottom: 12rem !important; ">
+                    <form method="post" class="search" action="{{ route('search') }}">
                         @csrf
                         <div class="d-flex">
-                            <input type="text" class="form-control" required name="search" id="search">
-                            <button class="btn btn-primary" type="submit">Search</button>
+                            <input type="text" class="form-control" required name="search" id="search"  placeholder="               Search for Product , brand and many more " style="border-bottom-left-radius: 50px; border-top-left-radius: 50px;">
+                            <button class="btn btn-primary" type="submit" style="border-radius: 0px;border-bottom-right-radius: 50px; border-top-right-radius: 50px; border: 0;">Search</button>
                         </div>
                     </form>
-                    <h1>Kids Accessories </h1>
-                    <h2><span>Wear Your Dress</span></h2>
-                </div>
-                <div class="mouse">
-                    <a href="#" class="mouse-icon">
-                        <div class="mouse-wheel"><span class="ion-ios-arrow-down"></span></div>
-                    </a>
                 </div>
             </div>
         </div>
     </div>
     <div class="goto-here"></div>
-    <section class="ftco-section ftco-product">
+    <section class="ftco-section ftco-produc my-2" style="padding: 0px !important;">
         <div class="container">
-            <div class="row justify-content-center mb-3 pb-3">
-                <div class="col-md-12 heading-section text-center ftco-animate">
-                    <h1 class="big">Trending</h1>
-                    <h2 class="mb-4">Trending</h2>
+            <div class="row justify-content-center">
+                <div class="col-md-12 text-center ftco-animate">
+                    <h1 class="my-2">Trending</h1>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="product-slider owl-carousel ftco-animate">
-                        @foreach($products as $product)
-                        <div class="item">
-                            <div class="product">
-                                <a href="#" class="img-prod"><img src="{{ url('images/').'/product/product_main_image/'.$product->product_image }}" alt="{{ $product->product_name }}"></a>
-                                <div class="text pt-3 px-3">
-                                    <h3><a href="#">{{ $product->product_name }}</a></h3>
-                                    <div class="d-flex">
-                                        <div class="pricing">
-                                            <p class="price"><span>Rs. {{ $product->product_price }}</span></p>
-                                        </div>
-                                        <div class="rating">
-                                            <p class="text-right">
-                                                <span class="ion-ios-star-outline"></span>
-                                                <span class="ion-ios-star-outline"></span>
-                                                <span class="ion-ios-star-outline"></span>
-                                                <span class="ion-ios-star-outline"></span>
-                                                <span class="ion-ios-star-outline"></span>
+            
+            @foreach(\App\FrontModel::categoryWiseProduct() as $category)
+               <div class="d-flex justify-content-end my-2"> <span class="float-right">  
+               <a class="float-right" style="font-size: 20px;" href="/product/category/{{ $category->slug }}">{{ $category->category_name }} </a> </span>
+               </div>
+               <hr>
+                <div class="row">
+                            @foreach(\App\FrontModel::productBasedOnCategory($category->id) as $product)
+                                <div class="col-md-2">
+                                    <div class="item">
+                                        <div class="product">
+                                            <a href="{{ route('shop.show', $product->slug) }}" class="img-prod"><img style="width: 100%;" src="{{ url('images/').'/product/product_main_image/'.$product->product_image }}" alt="{{ $product->product_name }}"></a>
+                                            <div class="text pt-3 px-3">
+                                                <h3><a href="{{ route('shop.show', $product->slug) }}" style="font-size:14px;">{{ str_limit($product->product_name, $limit = 18, $end = '...') }}</a></h3>
+                                                
+                                                <div class="d-flex"> 
+                                                    <div class="pricing">
+                                                        <p class="price"><span>Rs. {{ $product->product_price }}</span></p>
+                                                    </div>
+                                                    <div class="rating">
+                                                    
+                                                        <p class="d-flex">
+                                                            <span class="ion-ios-star-outline"></span>
+                                                            <span class="ion-ios-star-outline"></span>
+                                                            <span class="ion-ios-star-outline"></span>
+                                                            <span class="ion-ios-star-outline"></span>
+                                                            <span class="ion-ios-star-outline"></span>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <p class="bottom-area d-flex">
+                                            <div class="container">
+                                                <div class="row">
+                                                    <div class="col-md col-sm-6 bottom">
+                                                        <form method="POST" action="{{ route('addToCart') }}">
+                                                            @csrf
+                                                            <input type="hidden" id="product_id" name="product_id" value="{{ $product->id }}">
+                                                            <input type="hidden" id="product_quantity" name="product_quantity" value="1">
+                                                            <input type="hidden" id="product_price" name="product_price" value="{{ $product->product_price }}">
+                                                            <button type="submit" class="add-to-cart " style="background: transparent; border:none !important;" >
+                                                                <span> <img src="https://image.flaticon.com/icons/svg/145/145423.svg" style="width:30px;" /> </span>
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                    <div class="col-md col-sm-6 bottom">
+                                                        @if(\Illuminate\Support\Facades\Auth::check())
+                                                            @if(\App\Wishlist::checkWishList($product->id) == 0)
+                                                                <form method="POST" action="{{ route('wishlist') }}">
+                                                                    @csrf
+                                                                    <input type="hidden" id="product_id" name="product_id" value="{{ $product->id }}">
+                                                                    <button type="submit"  style="background: transparent; border: none !important;">
+                                                                        <span><img src="https://image.flaticon.com/icons/svg/149/149217.svg" style="width:30px;" /></span>
+                                                                    </button>
+                                                                </form>
+                                                            @else
+                                                                
+                                                                <img src="https://image.flaticon.com/icons/svg/148/148836.svg" style="width:30px;" />
+                                                                
+                                                            @endif
+                                                        @else
+                                                            <button type="button" style="background:transparent; border:none !important;" data-toggle="modal" data-target="#exampleModal">
+                                                               <img src="https://image.flaticon.com/icons/svg/149/149217.svg" style="width:30px;" />
+                                                            </button>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                            </div>
                                             </p>
                                         </div>
                                     </div>
                                 </div>
+                            @endforeach
+                             <a href="/product/category/{{ $category->slug }}" style="height: 30px;  margin-right:30px;   position: absolute;    left: 0px;    margin-top: 5%;"> 
+                             <img src="{{ url('images/').'/back.svg' }}" style="height:20px;" /> More 
+                             </a>
+                             <a href="/product/category/{{ $category->slug }}" style="height: 30px;  margin-right:30px;   position: absolute;    right: 0px;    margin-top: 5%;">  More 
+                             <img src="{{ url('images/').'/arrow-point-to-right.svg' }}" style="height:20px; margin-left:-5px;" />
+                             </a>
+                </div>
+            @endforeach
+           
+        </div>
+    </section>
+    @include('inc.about')
+    <div class="container">
+        <h3 class="text-center">Featured Product</h3>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="ftco-animate row product-featured">
+                        @foreach(\App\Product::isFeaturedProduct() as $product)
+                            <div class="item col-md">
+                                <div class="product">
+                                    <a href="{{ route('shop.show', $product->slug) }}" class="img-prod"><img style="width:100%;" src="{{ url('images/').'/product/product_main_image/'.$product->product_image }}" alt="{{ $product->product_name }}"></a>
+                                    <div class="text pt-3 px-3">
+                                        <h3><a href="{{ route('shop.show', $product->slug) }}">{{ $product->product_name }}</a></h3>
+                                        <div class="d-flex">
+                                            <div class="pricing">
+                                                <p class="price"><span>Rs. {{ $product->product_price }}</span></p>
+                                            </div>
+                                            <div class="rating">
+                                                <p class="d-flex">
+                                                    <span class="ion-ios-star-outline"></span>
+                                                    <span class="ion-ios-star-outline"></span>
+                                                    <span class="ion-ios-star-outline"></span>
+                                                    <span class="ion-ios-star-outline"></span>
+                                                    <span class="ion-ios-star-outline"></span>
+                                                </p>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                      <p class="bottom-area d-flex">
+                                            <div class="container">
+                                                <div class="row">
+                                                    <div class="col-md col-sm-6 bottom">
+                                                        <form method="POST" action="{{ route('addToCart') }}">
+                                                            @csrf
+                                                            <input type="hidden" id="product_id" name="product_id" value="{{ $product->id }}">
+                                                            <input type="hidden" id="product_quantity" name="product_quantity" value="1">
+                                                            <input type="hidden" id="product_price" name="product_price" value="{{ $product->product_price }}">
+                                                            <button type="submit" class="add-to-cart " style="background: transparent; border:none;" >
+                                                                <span> <img src="https://image.flaticon.com/icons/svg/145/145423.svg" style="width:30px;" /> </span>
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                    <div class="col-md col-sm-6 bottom">
+                                                        @if(\Illuminate\Support\Facades\Auth::check())
+                                                            @if(\App\Wishlist::checkWishList($product->id) == 0)
+                                                                <form method="POST" action="{{ route('wishlist') }}">
+                                                                    @csrf
+                                                                    <input type="hidden" id="product_id" name="product_id" value="{{ $product->id }}">
+                                                                    <button type="submit"  style="background: transparent; border: none;">
+                                                                        <span><img src="https://image.flaticon.com/icons/svg/149/149217.svg" style="width:30px;" /></span>
+                                                                    </button>
+                                                                </form>
+                                                            @else
+                                                                
+                                                                <img src="https://image.flaticon.com/icons/svg/148/148836.svg" style="width:30px;" />
+                                                                
+                                                            @endif
+                                                        @else
+                                                            <button type="button" style="background:transparent; border:none;" data-toggle="modal" data-target="#exampleModal">
+                                                               <img src="https://image.flaticon.com/icons/svg/149/149217.svg" style="width:30px;" />
+                                                            </button>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            </p>
+                                </div>
                             </div>
-                        </div>
                         @endforeach
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-    @include('inc.about')
-    <section class="ftco-section bg-light">
+    </div>
+    <section class="ftco-section bg-light" style="padding: 0px !important;">
         <div class="container">
             <div class="row justify-content-center mb-3 pb-3">
                 <div class="col-md-12 heading-section text-center ftco-animate">
-                    <h1 class="big">Products</h1>
-                    <h2 class="mb-4">Our Products</h2>
+                    <h2 class="my-4"> Latest Arrivals </h2>
                 </div>
             </div>
         </div>
-        <div class="container-fluid">
+        <div class="container-fluid latest">
             <div class="row">
                 @foreach($products as $product)
                 <div class="col-sm col-md-6 col-lg ftco-animate">
                     <div class="product">
-                        <a href="#" class="img-prod"><img class="img-fluid" src="{{ url('images/').'/product/product_main_image/'.$product->product_image }}" alt="{{ $product->product_name }}"></a>
+                        <a href="{{ route('shop.show', $product->slug) }}" class="img-prod"><img class="img-fluid" src="{{ url('images/').'/product/product_main_image/'.$product->product_image }}" alt="{{ $product->product_name }}"></a>
                         <div class="text py-3 px-3">
-                            <h3><a href="#">{{ $product->product_name }}</a></h3>
+                            <h3><a href="{{ route('shop.show', $product->slug) }}">{{ $product->product_name }}</a></h3>
                             <div class="d-flex">
                                 <div class="pricing">
                                     <p class="price"><span>Rs. {{ $product->product_price }}</span></p>
                                 </div>
                                 <div class="rating">
-                                    <p class="text-right">
+                                    <p class="d-flex">
                                         <span class="ion-ios-star-outline"></span>
                                         <span class="ion-ios-star-outline"></span>
                                         <span class="ion-ios-star-outline"></span>
@@ -100,18 +232,43 @@
                             </div>
                             <hr>
                             <p class="bottom-area d-flex">
-                            <form method="POST" action="{{ route('addToCart') }}">
-                                @csrf
-                                <input type="hidden" id="product_id" name="product_id" value="{{ $product->id }}">
-                                <input type="hidden" id="product_quantity" name="product_quantity" value="1">
-                                <input type="hidden" id="product_price" name="product_price" value="{{ $product->product_price }}">
-                                <button type="submit" class="add-to-cart" style="background: transparent; border: none;">
-                                    <span>Add to cart <i class="ion-ios-add ml-1"></i></span>
-                                </button>
-                            </form>
-{{--                                <a href="#" class="add-to-cart"><span>Add to cart <i class="ion-ios-add ml-1"></i></span></a>--}}
-                                <a href="#" class="ml-auto"><span><i class="ion-ios-heart-empty"></i></span></a>
-                            </p>
+                                            <div class="container">
+                                                <div class="row">
+                                                    <div class="col-md bottom col-sm-6">
+                                                        <form method="POST" action="{{ route('addToCart') }}">
+                                                            @csrf
+                                                            <input type="hidden" id="product_id" name="product_id" value="{{ $product->id }}">
+                                                            <input type="hidden" id="product_quantity" name="product_quantity" value="1">
+                                                            <input type="hidden" id="product_price" name="product_price" value="{{ $product->product_price }}">
+                                                            <button type="submit" class="add-to-cart " style="background: transparent; border:none;" >
+                                                                <span> <img src="https://image.flaticon.com/icons/svg/145/145423.svg" style="width:30px;" /> </span>
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                    <div class="col-md bottom col-sm-6">
+                                                        @if(\Illuminate\Support\Facades\Auth::check())
+                                                            @if(\App\Wishlist::checkWishList($product->id) == 0)
+                                                                <form method="POST" action="{{ route('wishlist') }}">
+                                                                    @csrf
+                                                                    <input type="hidden" id="product_id" name="product_id" value="{{ $product->id }}">
+                                                                    <button type="submit"  style="background: transparent; border: none;">
+                                                                        <span><img src="https://image.flaticon.com/icons/svg/149/149217.svg" style="width:30px;" /></span>
+                                                                    </button>
+                                                                </form>
+                                                            @else
+                                                                
+                                                                <img src="https://image.flaticon.com/icons/svg/148/148836.svg" style="width:30px;" />
+                                                                
+                                                            @endif
+                                                        @else
+                                                            <button type="button" style="background:transparent; border:none;" data-toggle="modal" data-target="#exampleModal">
+                                                               <img src="https://image.flaticon.com/icons/svg/149/149217.svg" style="width:30px;" />
+                                                            </button>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            </p>
                         </div>
                     </div>
                 </div>
@@ -119,197 +276,42 @@
             </div>
         </div>
     </section>
-
-    <section class="ftco-section ftco-section-more img" style="background-image: url(images/bg_5.jpg);">
-        <div class="container">
-            <div class="row justify-content-center mb-3 pb-3">
-                <div class="col-md-12 heading-section ftco-animate">
-                    <h2>Summer Sale</h2>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="ftco-section testimony-section bg-light">
-        <div class="container">
-            <div class="row justify-content-center mb-3 pb-3">
-                <div class="col-md-12 heading-section text-center ftco-animate">
-                    <h1 class="big">Testimony</h1>
-                </div>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-md-8 ftco-animate">
-                    <div class="row ftco-animate">
-                        <div class="col-md-12">
-                            <div class="carousel-testimony owl-carousel ftco-owl">
-                                <div class="item">
-                                    <div class="testimony-wrap py-4 pb-5">
-                                        <div class="user-img mb-4" style="background-image: url(images/person_1.jpg)">
-		                    <span class="quote d-flex align-items-center justify-content-center">
-		                      <i class="icon-quote-left"></i>
-		                    </span>
-                                        </div>
-                                        <div class="text text-center">
-                                            <p class="mb-4">A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.</p>
-                                            <p class="name">Roger Scott</p>
-                                            <span class="position">Customer</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="item">
-                                    <div class="testimony-wrap py-4 pb-5">
-                                        <div class="user-img mb-4" style="background-image: url(images/person_2.jpg)">
-		                    <span class="quote d-flex align-items-center justify-content-center">
-		                      <i class="icon-quote-left"></i>
-		                    </span>
-                                        </div>
-                                        <div class="text text-center">
-                                            <p class="mb-4">A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.</p>
-                                            <p class="name">Roger Scott</p>
-                                            <span class="position">Customer</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="item">
-                                    <div class="testimony-wrap py-4 pb-5">
-                                        <div class="user-img mb-4" style="background-image: url(images/person_3.jpg)">
-		                    <span class="quote d-flex align-items-center justify-content-center">
-		                      <i class="icon-quote-left"></i>
-		                    </span>
-                                        </div>
-                                        <div class="text text-center">
-                                            <p class="mb-4">A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.</p>
-                                            <p class="name">Roger Scott</p>
-                                            <span class="position">Customer</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="item">
-                                    <div class="testimony-wrap py-4 pb-5">
-                                        <div class="user-img mb-4" style="background-image: url(images/person_1.jpg)">
-		                    <span class="quote d-flex align-items-center justify-content-center">
-		                      <i class="icon-quote-left"></i>
-		                    </span>
-                                        </div>
-                                        <div class="text text-center">
-                                            <p class="mb-4">A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.</p>
-                                            <p class="name">Roger Scott</p>
-                                            <span class="position">Customer</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="item">
-                                    <div class="testimony-wrap py-4 pb-5">
-                                        <div class="user-img mb-4" style="background-image: url(images/person_1.jpg)">
-		                    <span class="quote d-flex align-items-center justify-content-center">
-		                      <i class="icon-quote-left"></i>
-		                    </span>
-                                        </div>
-                                        <div class="text text-center">
-                                            <p class="mb-4">A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.</p>
-                                            <p class="name">Roger Scott</p>
-                                            <span class="position">Customer</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-
-    <section class="ftco-section">
-        <div class="container">
-            <div class="row justify-content-center mb-3 pb-3">
-                <div class="col-md-12 heading-section text-center ftco-animate">
-                    <h1 class="big">Blog</h1>
-                    <h2>Recent Blog</h2>
-                </div>
-            </div>
-            <div class="row d-flex">
-                <div class="col-md-4 d-flex ftco-animate">
-                    <div class="blog-entry align-self-stretch">
-                        <a href="blog-single.html" class="block-20" style="background-image: url('images/image_1.jpg');">
-                        </a>
-                        <div class="text mt-3 d-block">
-                            <h3 class="heading mt-3"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a></h3>
-                            <div class="meta mb-3">
-                                <div><a href="#">Dec 6, 2018</a></div>
-                                <div><a href="#">Admin</a></div>
-                                <div><a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 d-flex ftco-animate">
-                    <div class="blog-entry align-self-stretch">
-                        <a href="blog-single.html" class="block-20" style="background-image: url('images/image_2.jpg');">
-                        </a>
-                        <div class="text mt-3">
-                            <h3 class="heading mt-3"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a></h3>
-                            <div class="meta mb-3">
-                                <div><a href="#">Dec 6, 2018</a></div>
-                                <div><a href="#">Admin</a></div>
-                                <div><a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 d-flex ftco-animate">
-                    <div class="blog-entry align-self-stretch">
-                        <a href="blog-single.html" class="block-20" style="background-image: url('images/image_3.jpg');">
-                        </a>
-                        <div class="text mt-3">
-                            <h3 class="heading mt-3"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a></h3>
-                            <div class="meta mb-3">
-                                <div><a href="#">Dec 6, 2018</a></div>
-                                <div><a href="#">Admin</a></div>
-                                <div><a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="ftco-section ftco-counter img" id="section-counter" style="background-image: url(images/bg_4.jpg);">
+    <!--<img src="{{ url('images/').'/banner1.png' }}" class="img-fluid" alt="">-->
+     <section class="ftco-section ftco-counter img" id="section-counter" style="background-image: linear-gradient(to right,  #000000b3, #000000b3), url('{{ url('images/').'/contactpage.jpg' }}'); padding-top: 1rem;
+        padding-bottom: 1rem;">
         <div class="container">
             <div class="row justify-content-center py-5">
                 <div class="col-md-10">
                     <div class="row">
                         <div class="col-md-3 d-flex justify-content-center counter-wrap ftco-animate">
                             <div class="block-18 text-center">
-                                <div class="text">
-                                    <strong class="number" data-number="10000">0</strong>
-                                    <span>Happy Customers</span>
+                                <div class="text" style="border-style: solid; border-color: white; padding: 10px; border-width: 3px; height: 135px ; width: 135px; border-radius: 50%;">
+                                    <strong class="number" data-number="10000" style="color: white !important; font-size: 25px;">0</strong>
+                                    <span style="color: white !important; font-size: 16px;">Happy Customers</span>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-3 d-flex justify-content-center counter-wrap ftco-animate">
                             <div class="block-18 text-center">
-                                <div class="text">
-                                    <strong class="number" data-number="100">0</strong>
-                                    <span>Branches</span>
+                                <div class="text" style="border-style: solid; border-color: white; padding: 10px; border-width: 3px; height: 135px ; width: 135px; border-radius: 50%;">
+                                    <strong style=" font-size: 25px; color: white !important;" class="number" data-number="100">0</strong>
+                                    <span style="color: white !important; font-size: 16px;">Branches</span>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-3 d-flex justify-content-center counter-wrap ftco-animate">
                             <div class="block-18 text-center">
-                                <div class="text">
-                                    <strong class="number" data-number="1000">0</strong>
-                                    <span>Partner</span>
+                                <div class="text" style="border-style: solid; border-color: white; padding: 10px; border-width: 3px; height: 135px ; width: 135px; border-radius: 50%;">
+                                    <strong style="color: white !important; font-size: 25px;" class="number" data-number="1000">0</strong>
+                                    <span style="color: white !important; font-size: 16px;">Partner</span>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-3 d-flex justify-content-center counter-wrap ftco-animate">
                             <div class="block-18 text-center">
-                                <div class="text">
-                                    <strong class="number" data-number="100">0</strong>
-                                    <span>Awards</span>
+                                <div class="text" style="border-style: solid; border-color: white; padding: 10px; border-width: 3px; height: 135px ; width: 135px; border-radius: 50%;">
+                                    <strong style="color: white !important; font-size: 25px;" class="number" data-number="100">0</strong>
+                                    <span style="color: white !important; font-size: 16px;">Awards</span>
                                 </div>
                             </div>
                         </div>
@@ -319,45 +321,125 @@
         </div>
     </section>
 
-    <section class="ftco-section bg-light ftco-services">
+    <section class="ftco-section bg-light ftco-services" style="padding: 0px; ">
         <div class="container">
-            <div class="row justify-content-center mb-3 pb-3">
-                <div class="col-md-12 heading-section text-center ftco-animate">
-                    <h1 class="big">Services</h1>
-                    <h2>We want you to express yourself</h2>
-                </div>
-            </div>
             <div class="row">
-                <div class="col-md-4 text-center d-flex align-self-stretch ftco-animate">
-                    <div class="media block-6 services">
-                        <div class="icon d-flex justify-content-center align-items-center mb-4">
-                            <span class="flaticon-002-recommended"></span>
-                        </div>
-                        <div class="media-body">
-                            <h3 class="heading">Refund Policy</h3>
-                            <p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic.</p>
+                <div class="col-md-3 p-3 " style="background: #faebd7;">
+                <h5 class="text-center" style="margin-bottom: -5rem;  padding-top: 1rem;"> Customer Reviews </h5>
+                    <div class="pt-5 mt-5">
+                        <div class="carousel-testimony owl-carousel ftco-owl">
+                            <div class="item">
+                                <div class="testimony-wrap">
+                                    <div class="text text-center">
+                                        <p class="">Best products for babies. It covers full head including ear .  It is also good for baby if they fall while crawling it gives double protection due to two layered clothing. Value for money.. </p>
+                                    </div>
+                                    <div class="user-img " >
+                                    <!--<span class="quote d-flex align-items-center justify-content-center">-->
+                                    <!--  <i class="icon-quote-left"></i>-->
+                                    <!--</span>-->
+                                    </div>
+                                    <div class="text text-center">
+                                        <br>
+                                        <p class="name">Partosh </p>
+                                        <span class="position">Customer</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="testimony-wrap">
+                                    <div class="text text-center">
+                                        <p class="">Wonderful product... cotton cap....covers full ears...very comfortable....take bigger size.....will be better. </p>
+                                    </div>
+                                    <div class="user-img ">
+                                    <!--<span class="quote d-flex align-items-center justify-content-center">-->
+                                    <!--  <i class="icon-quote-left"></i>-->
+                                    <!--</span>-->
+                                    </div>
+                                    <div class="text text-center">
+                                        <br>
+                                        <p class="name">Pankaj</p>
+                                        <span class="position">Customer</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="testimony-wrap">
+                                    <div class="text text-center">
+                                        <p class="">Little small , size should be increased, other wise product is very good and all the best to manufacturers , please keep contenue the products! </p>
+                                    </div>
+                                    <div class="user-img " >
+                                    <!--<span class="quote d-flex align-items-center justify-content-center">-->
+                                    <!--  <i class="icon-quote-left"></i>-->
+                                    <!--</span>-->
+                                    </div>
+                                    <div class="text text-center">
+                                        <br>
+                                        <p class="name">Kajal</p>
+                                        <span class="position">Customer</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="testimony-wrap">
+                                    <div class="text text-center">
+                                        <p class="">Quality of caps are very good. It covers the whole head and ears and absorbs sweat too. Keeps my baby's head warm. Worth buying. Am extremely satisfied. Thumbs up!! </p>
+                                    </div>
+                                    <div class="user-img " >
+                                    <!--<span class="quote d-flex align-items-center justify-content-center">-->
+                                    <!--  <i class="icon-quote-left"></i>-->
+                                    <!--</span>-->
+                                    </div>
+                                    <div class="text text-center">
+                                        <br>
+                                        <p class="name">Yusuf</p>
+                                        <span class="position">Customer</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 text-center d-flex align-self-stretch ftco-animate">
-                    <div class="media block-6 services">
-                        <div class="icon d-flex justify-content-center align-items-center mb-4">
-                            <span class="flaticon-001-box"></span>
-                        </div>
-                        <div class="media-body">
-                            <h3 class="heading">Premium Packaging</h3>
-                            <p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic.</p>
+                <div class="col-md-9">
+                    <div class="row justify-content-center mb-3 pb-3">
+                        <div class="col-md-12 heading-section text-center ftco-animate">
+                            <h1 class="big" style="font-size: 40px !important; position: relative; top: 0 !important; -webkit-text-fill-color: #4498d1;">Services</h1>
+                            <h2>We want you to express yourself</h2>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-4 text-center d-flex align-self-stretch ftco-animate">
-                    <div class="media block-6 services">
-                        <div class="icon d-flex justify-content-center align-items-center mb-4">
-                            <span class="flaticon-003-medal"></span>
+                    <div class="row">
+                        <div class="col-md-4 text-center d-flex align-self-stretch ftco-animate">
+                            <div class="media block-6 services">
+                                <div class="icon d-flex justify-content-center align-items-center mb-4">
+                                    <img src="https://image.flaticon.com/icons/svg/1043/1043464.svg" style="height: 90px; width: 70px;" />
+                                </div>
+                                <div class="media-body">
+                                    <h3 class="heading">Refund Policy</h3>
+                                    <p>7 Days Returns And Refund</p>
+
+                                </div>
+                            </div>
                         </div>
-                        <div class="media-body">
-                            <h3 class="heading">Superior Quality</h3>
-                            <p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic.</p>
+                        <div class="col-md-4 text-center d-flex align-self-stretch ftco-animate">
+                            <div class="media block-6 services">
+                                <div class="icon d-flex justify-content-center align-items-center mb-4">
+                                    <img src="https://image.flaticon.com/icons/svg/1086/1086741.svg" style="height: 90px; width: 70px;" />
+                                </div>
+                                <div class="media-body">
+                                    <h3 class="heading">Payment</h3>
+                                    <p>100% Secured Payment.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 text-center d-flex align-self-stretch ftco-animate">
+                            <div class="media block-6 services">
+                                <div class="icon d-flex justify-content-center align-items-center mb-4">
+                                    <img src="https://image.flaticon.com/icons/svg/272/272366.svg" style="height: 90px; width: 70px;" />
+                                </div>
+                                <div class="media-body">
+                                    <h3 class="heading">Superior Quality</h3>
+                                    <p>Highest Quality Guarantee.</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

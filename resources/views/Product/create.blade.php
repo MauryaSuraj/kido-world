@@ -38,16 +38,8 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="form-group row">
-                                    <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Manufacturer Name') }}</label>
-                                    <div class="col-md-6">
-                                        <select name="manufacturer_id" id="manufacturer_id" class="form-control d-block">
-                                            @foreach($manu as $fec)
-                                            <option value="{{ $fec->id }}">{{ $fec->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
+
+
                                 <div class="form-group row">
                                     <label for="flash_sale" class="col-md-4 col-form-label text-md-right">{{ __('Flash Sale') }}</label>
                                     <div class="col-md-6">
@@ -58,12 +50,43 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
+                                    <label for="gender" class="col-md-4 col-form-label text-md-right">{{ __('Gender') }}</label>
+                                    <div class="col-md-6">
+                                        <select name="gender" class="form-control d-block" id="gender">
+                                            <option value="Boys">Boys</option>
+                                            <option value="Girls">Girls</option>
+                                            <option value="Unisex">Unisex</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="gst" class="col-md-4 col-form-label text-md-right">{{ __('GST ') }}</label>
+                                    <div class="col-md-6">
+                                        <select name="gst" class="form-control d-block" id="gst">
+                                            <option value="5">5%</option>
+                                            <option value="12">12%</option>
+                                            <option value="18">18%</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
                                     <label for="special" class="col-md-4 col-form-label text-md-right">{{ __('Special') }}</label>
                                     <div class="col-md-6">
                                         <select name="special" id="special" class="form-control d-block">
                                             <option value="Yes">Yes</option>
                                             <option value="No">No</option>
                                         </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="sku_code" class="col-md-4 col-form-label text-md-right">{{ __('SKU CODE') }}</label>
+                                    <div class="col-md-6">
+                                        <input id="sku_code" type="text" class="form-control @error('sku_code') is-invalid @enderror" name="sku_code" required autocomplete="sku_code">
+                                        @error('sku_code')
+                                        <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                        @enderror
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -113,9 +136,9 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="price" class="col-md-4 col-form-label text-md-right">{{ __('Product Price') }}</label>
-                                    <div class="col-md-6">
-                                        <input id="price" type="number" class="form-control @error('price') is-invalid @enderror" name="price" required autocomplete="price">
+                                    <label for="price" class="col-md-4 col-form-label text-md-right">{{ __('Product Price') }}  </label>
+                                    <div class="col-md-6 d-flex">
+                                        <input id="price" type="number" class="form-control @error('price') is-invalid @enderror" name="price" required autocomplete="price"><span class="mx-2">Rs. </span>
                                         @error('price')
                                         <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -164,10 +187,10 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="product_weight" class="col-md-4 col-form-label text-md-right">{{ __('Product Weight') }}</label>
+                                    <label for="product_weight" class="col-md-4 col-form-label text-md-right">{{ __('Product Weight')  }}  </label>
 
-                                    <div class="col-md-6">
-                                        <input id="product_weight" type="text" class="form-control" name="product_weight" required autocomplete="product_weight">
+                                    <div class="col-md-6 d-flex">
+                                        <input id="product_weight" type="text" class="form-control" name="product_weight" required autocomplete="product_weight"> <span class="mx-2"> gram. </span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -179,6 +202,28 @@
                                         </select>
                                     </div>
                                 </div>
+                                <div class="form-group row">
+                                    <label for="color" class="col-md-4 col-form-label text-md-right">{{ __('Color') }}</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" id="color" name="color">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                        <label for="dimension" class="col-md-4 col-form-label text-md-right">Dimension</label>
+                                        <div class="col-md-6">
+                                            <span class="d-flex"> <input type="text" class="form-control" id="dimension" name="dimension">  <span class="mx-2"> Height*Width*Depth CM </span></span>
+                                        </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="color" class="col-md-4 col-form-label text-md-right">{{ __('Size') }}</label>
+                                    <div class="col-md-6">
+                                        <select name="size" class="form-control d-block" id="size">
+                                            <option value="1-6 Years">1-6 Years</option>
+                                            <option value="2-8 Years">2-8 Years</option>
+                                        </select>
+                                    </div>
+                                </div>
+
 
                                 <div class="form-group row">
                                     <label for="product_status" class="col-md-4 col-form-label text-md-right">{{ __('Product status') }}</label>

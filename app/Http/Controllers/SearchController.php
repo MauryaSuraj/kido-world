@@ -23,5 +23,21 @@ class SearchController extends Controller
                 ->paginate(12);
              return view('shop.index',compact('products'));
     }
+    public function search_admin(Request $request){
+        $request->validate([
+            'search' => 'required'
+        ]);
+        $search_term =   $request->input('search');
+
+        $product_lists = DB::table('products')
+            ->where('product_name', 'LIKE','%'.$search_term.'%')
+            ->orWhere('product_description','LIKE','%'.$search_term.'%')
+            ->join('product_categories','product_categories.id','=','products.category_id')
+            ->orWhere('category_name','LIKE','%'.$search_term.'%')
+            ->orWhere('category_des','LIKE','%'.$search_term.'%')
+            ->select('products.*','product_categories.category_name')
+            ->paginate(12);
+        return view('Product.index',compact('product_lists'));
+    }
 }
 

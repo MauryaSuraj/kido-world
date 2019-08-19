@@ -1,6 +1,12 @@
 @extends('layouts.pageLayout')
 @section('content')
-    <div class="hero-wrap hero-bread" style="background-image: url('images/bg_6.jpg');">
+    <style>
+        .billing-form .form-control{
+            border: 1px solid var(--pink) !important;
+            height: 40px !important;
+        }
+    </style>
+    <div class="hero-wrap hero-bread" style="background-image: url('{{ url('images/').'/shop.png' }}');">
         <div class="container">
             <div class="row no-gutters slider-text align-items-center justify-content-center">
                 <div class="col-md-9 ftco-animate text-center">
@@ -31,12 +37,14 @@
                             @foreach($cart_item as $cart)
                             <tr class="text-center">
                                 <td class="product-remove">
-                                    <a href="{{ route('removeItem', $cart->cart_id) }}"><span class="ion-ios-close"></span></a>
+                                    <form action="{{ route('removeItem', $cart->cart_id) }}" method="POST">
+                                        @csrf
+                                        <button type="submit" style="height: 25px !important;"><span style="padding: 5px !important;" class="ion-ios-close"></span></button>
+                                    </form>
                                 </td>
                                 <td class="image-prod"><div class="img" style="background-image:url({{ url('images/').'/product/product_main_image/'.$cart->product_image }});"></div></td>
                                 <td class="product-name">
                                     <h3>{{ $cart->product_name }}</h3>
-                                    <p>{{ \Illuminate\Support\Str::limit($cart->product_description,50,'...') }}</p>
                                 </td>
                                 <td class="price">Rs. {{ $cart->product_price }}</td>
                                 <td class="quantity">
@@ -80,16 +88,26 @@
                             <span>Total</span>
                             <span>Rs. {{ \App\ShoppingCart::grandTotal() }}</span>
                         </p>
+                        <p>
+
+                        <div class="row my-2">
+                            @if(session()->has('success'))
+                                <div class="alert alert-success">
+                                    {{ session()->get('success') }}
+                                </div>
+                            @endif
+                        </div>
+                        </p>
                     </div>
                 </div>
                 <div class="col-md-8 ftco-animate mb-4">
-                    <form action="{{ route('shipping') }}" method="POST" class="billing-form bg-light p-3 p-md-5">
+                    <form action="{{ route('shipping') }}" method="POST" class="billing-form bg-light p-3 p-md-5" style="background: #e83e8c0d !important;">
                         @csrf
                         <h3 class="mb-4 billing-heading">Shipping  Details</h3>
                         <div class="row align-items-end">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="firstname">Firt Name</label>
+                                    <label for="firstname">First Name</label>
                                     <input type="text" name="first_name" id="first_name" class="form-control" placeholder="">
                                 </div>
                             </div>
@@ -104,7 +122,7 @@
                                 <div class="form-group">
                                     <label for="country">State / Country</label>
                                     <div class="select-wrap">
-                                        <div class="icon"><span class="ion-ios-arrow-down"></span></div>
+                                        <div class="icon"></div>
                                         <input type="text" class="form-control" placeholder="" name="state" id="state" >
                                     </div>
                                 </div>
@@ -147,7 +165,9 @@
                                     <input type="text" class="form-control" placeholder="" name="email" id="email">
                                 </div>
                             </div>
-                            <p><button  type="submit" class="btn btn-primary py-3 px-4">CheckOut Here</button></p>
+                           <div class="col-md-12">
+                               <button  type="submit" class="btn btn-primary float-right py-3 px-4">CheckOut Here</button>
+                           </div>
                         </div>
                     </form>
                 </div>

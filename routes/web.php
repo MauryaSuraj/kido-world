@@ -10,19 +10,28 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Auth::routes(['verify' => true]);
 Route::get('/','FrontEnd@index');
-Auth::routes();
+Route::get('/contact', 'FrontEnd@contact')->name('contact');
+Route::get('/about', 'FrontEnd@about')->name('about');
+Route::post('contact_form', 'FrontEnd@contactinsert')->name('contact_form');
+Route::get('terms', 'FrontEnd@terms')->name('terms');
+Route::get('privacy', 'FrontEnd@privacy')->name('privacy');
+Route::get('returnpolicy', 'FrontEnd@returnpolicy')->name('returnpolicy');
+Route::get('refundpolicy', 'FrontEnd@refundPolicy')->name('refundpolicy');
+Route::get('shippingpolicy', 'FrontEnd@shipping')->name('shippingpolicy');
 
 Route::resource('/admin/product/category', 'ProductCategoryController');
 Route::resource('/admin/manufacturer', 'ManufacturerController');
 Route::resource('/admin/product','ProductController');
 Route::resource('/admin/Profile', 'AdminProfileController');
+Route::resource('/admin/dynamicPage', 'DynamicPagesController');
 Route::get('/admin/order', 'OrderController@index')->name('order');
+Route::post('/admin/order_status' ,'OrderController@order_status')->name('order_status');
 Route::resource('/shop', 'FrontProductController');
 Route::get('/cart', 'ShoppingCartController@index')->name('cart');
 Route::post('/addToCart', 'ShoppingCartController@addTocart')->name('addToCart');
-Route::get('/removeItem/{id}','ShoppingCartController@removeItem')->name('removeItem');
+Route::post('/removeItem/{id}','ShoppingCartController@removeItem')->name('removeItem');
 Route::get('/checkout','CheckOutController@index')->name('checkout');
 Route::get('/home', 'HomeController@index')->name('home');
 Route::post('/checkout', 'CheckOutController@addShippingDetails')->name('addShippingDetails');
@@ -39,3 +48,10 @@ Route::get('/buyer/profile' , 'UserController@profile')->name('buyer_profile');
 Route::get('/buyer/cart' ,'UserController@cart')->name('buyer_cart');
 Route::get('/buyer/profile/{id}/edit', 'UserController@profile_edit')->name('buyer_profile_edit');
 Route::post('/search','SearchController@search')->name('search');
+Route::get('/product/category/{id}', 'CategorySearchControler@search');
+Route::post('/search_admin','SearchController@search_admin')->name('search_admin');
+Route::resource('/admin/discount', 'DiscountController');
+
+Route::post('/discount', 'CheckOutController@discount')->name('discount');
+Route::get('order/export', 'OrderControllerExcel@export')->name('order_export');
+Route::post('/review', 'ReviewsController@store')->name('review');

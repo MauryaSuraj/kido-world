@@ -2,38 +2,40 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\CartTest;
+use App\Discount;
+use App\ShoppingCart;
+use Carbon\Carbon;
 
 class ShoppingCartController extends Controller
 {
-
     public function index(){
-        $user_id = null;
+
         if (Auth::user()){
             $user_id = \auth()->user()->id;
+        }else{
+            $user_id = CartTest::getIPAddress();
         }
         $cart_item = DB::table('shopping_carts')
             ->where('user_id', '=', $user_id)
             ->join('products', 'products.id', '=', 'shopping_carts.product_id')
             ->select('products.*', 'shopping_carts.quantity as cart_quantity','shopping_carts.id as cart_id')
             ->get();
-        return view('ShoppingCart.index',compact('cart_item'));
+        // return view('ShoppingCart.index',compact('cart_item'));
+         return view('ShoppingCart.index',compact('cart_item'));
     }
     public function addTocart(Request $request){
-
         $request->validate([
            'product_id' => 'required',
            'product_quantity' => 'required',
            'product_price' => 'required',
         ]);
-
-        //add to database here
         if (Auth::check()) {
             $auth_user_id = auth()->user()->id;
-        }else{ $auth_user_id = null; }
+        }else{ $auth_user_id =  $auth_user_id = CartTest::getIPAddress(); }
 
         $product_id = $request->input('product_id');
 
@@ -54,7 +56,7 @@ class ShoppingCartController extends Controller
                 ->where('user_id','=', $auth_user_id)
                 ->update([
                    //update quantity by one
-                    'quantity' => $product_quantity + 1,
+                    'quantity' => $product_quantity + $request->input('product_quantity'),
                     'updated_at' => Carbon::now()->toDateTimeString(),
                 ]);
 

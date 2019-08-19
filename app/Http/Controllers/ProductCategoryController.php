@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\ProductCategory;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -9,6 +11,10 @@ use Illuminate\Support\Str;
 
 class ProductCategoryController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['auth', 'verified']);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -18,6 +24,9 @@ class ProductCategoryController extends Controller
     {
         $cat_s = DB::table('product_categories')
             ->paginate(6);
+        if (User::adminProfileCheck() == 0){
+            return redirect()->to('/');
+        }else
         return view('ProductCategory.index',compact('cat_s'));
     }
 
@@ -28,6 +37,9 @@ class ProductCategoryController extends Controller
      */
     public function create()
     {
+        if (User::adminProfileCheck() == 0){
+            return redirect()->to('/');
+        }else
         return view('ProductCategory.create');
     }
 
@@ -49,13 +61,13 @@ class ProductCategoryController extends Controller
         if ($request->hasFile('cat_icon')){
             if ($request->file('cat_icon')->isValid()){
                 $cat_icon = time().'.'.request()->cat_icon->getClientOriginalExtension();
-                request()->cat_icon->move(public_path('images/category/cat_icon'), $cat_icon);
+                request()->cat_icon->move(('images/category/cat_icon'), $cat_icon);
             }
         }
         if ($request->hasFile('cat_header_image')){
             if ($request->file('cat_header_image')->isValid()){
                 $cat_header_image = time().'.'.request()->cat_header_image->getClientOriginalExtension();
-                request()->cat_header_image->move(public_path('images/category/cat_header_image'), $cat_header_image);
+                request()->cat_header_image->move(('images/category/cat_header_image'), $cat_header_image);
             }
         }
         $insert_cat = DB::table('product_categories')
@@ -80,6 +92,9 @@ class ProductCategoryController extends Controller
      */
     public function show($id)
     {
+        if (User::adminProfileCheck() == 0){
+            return redirect()->to('/');
+        }else
         return view('ProductCategory.show');
     }
 
@@ -94,6 +109,9 @@ class ProductCategoryController extends Controller
         $cat_s = DB::table('product_categories')
             ->where('id','=',$id)
             ->get()->first();
+        if (User::adminProfileCheck() == 0){
+            return redirect()->to('/');
+        }else
         return view('ProductCategory.edit', compact('cat_s'));
     }
 
@@ -117,7 +135,7 @@ class ProductCategoryController extends Controller
         if ($request->hasFile('cat_icon')){
             if ($request->file('cat_icon')->isValid()){
                 $cat_icon = time().'.'.request()->cat_icon->getClientOriginalExtension();
-                request()->cat_icon->move(public_path('images/category/cat_icon'), $cat_icon);
+                request()->cat_icon->move(('images/category/cat_icon'), $cat_icon);
             }
         }
         else{
@@ -126,7 +144,7 @@ class ProductCategoryController extends Controller
         if ($request->hasFile('cat_header_image')){
             if ($request->file('cat_header_image')->isValid()){
                 $cat_header_image = time().'.'.request()->cat_header_image->getClientOriginalExtension();
-                request()->cat_header_image->move(public_path('images/category/cat_header_image'), $cat_header_image);
+                request()->cat_header_image->move(('images/category/cat_header_image'), $cat_header_image);
             }
         }else{
             $cat_header_image = DB::table('product_categories')->where('id', '=', $id)->pluck('cat_header_image');
@@ -152,10 +170,7 @@ class ProductCategoryController extends Controller
      */
     public function destroy($id)
     {
-//        echo "some thing here".$id;
-        dd($id);
-//         $delete = DB::table('product_categories')->where('id', $id)->delete();
-//         if ($delete)
-//             return redirect()->back()->with('success', 'Category Deleted successfully');
+        ProductCategory::where('id',$id)->delete();
+        return redirect()->back()->with('success', 'Deleted SuccessFully');
     }
 }

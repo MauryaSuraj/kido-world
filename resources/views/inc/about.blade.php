@@ -2,15 +2,13 @@
 <section class="ftco-section ftco-no-pb ftco-no-pt bg-light">
     <div class="container">
         <div class="row">
-            <div class="col-md-5 p-md-5 img img-2 d-flex justify-content-center align-items-center" style="background-image: url('https://images.pexels.com/photos/2026960/pexels-photo-2026960.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940');">
-                <a href="https://vimeo.com/45830194" class="icon popup-vimeo d-flex justify-content-center align-items-center">
-                    <span class="icon-play"></span>
-                </a>
+            <div class="col-md-5 p-md-5 img img-2 d-flex justify-content-center align-items-center" style="background-image: url({{ url('images/').'/aboutimage.png' }}); background-size: contain;">
+              
             </div>
             <div class="col-md-7 py-5 wrap-about pb-md-5 ftco-animate">
                 <div class="heading-section-bold mb-5 mt-md-5">
                     <div class="ml-md-0">
-                        <h2 class="mb-4">Kid -O- <br> <span>World</span></h2>
+                        <h2 class="mb-4">Kid o World</h2>
                     </div>
                 </div>
                 <div class="pb-md-5">

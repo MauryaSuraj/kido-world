@@ -12,6 +12,10 @@
     <link href="{{ asset('css/dash/dashboard.css') }}" rel="stylesheet">
     <!-- Material Design Bootstrap -->
     <style>
+        .fixed-sn main{
+         margin-right: 0px !important;
+         margin-left: 0px !important;
+        }
         #sidebar-wrapper {
             min-height: 100vh;
             margin-left: -15rem;
@@ -24,10 +28,6 @@
         #sidebar-wrapper .sidebar-heading {
             padding: 0.875rem 1.25rem;
             font-size: 1.2rem;
-        }
-
-        #sidebar-wrapper .list-group {
-            width: 15rem;
         }
 
         #page-content-wrapper {

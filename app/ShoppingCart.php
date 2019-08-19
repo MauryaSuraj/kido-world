@@ -11,34 +11,40 @@ class ShoppingCart extends Model
     public $itemCount  ;
    public static function itemCount(){
        global $itemCount;
+
        if (Auth::user()){
            $user_id = \auth()->user()->id;
-           $check_for_item_in_cart = DB::table('shopping_carts')
-               ->where('user_id', '=', $user_id)
-               ->count();
-           if ($check_for_item_in_cart > 0){
-               $count_item = DB::table('shopping_carts')->where('user_id','=', $user_id)->get();
-               foreach ($count_item as $item){
-                   $itemCount = $itemCount + $item->quantity;
-               }
+       }else{
+           $user_id = CartTest::getIPAddress();
+       }
+       $check_for_item_in_cart = DB::table('shopping_carts')
+           ->where('user_id', '=', $user_id)
+           ->count();
+       if ($check_for_item_in_cart > 0){
+           $count_item = DB::table('shopping_carts')->where('user_id','=', $user_id)->get();
+           foreach ($count_item as $item){
+               $itemCount = $itemCount + $item->quantity;
            }
-           else{
-               $itemCount ="Cart Is Empty";
-           }
+       }
+       else{
+           $itemCount ="Cart Is Empty";
        }
        echo $itemCount;
    }
 
    public static function subTotal(){
        $itemCount =0;
+
        if (Auth::user()){
            $user_id = \auth()->user()->id;
-           $check_for_item_in_cart = DB::table('shopping_carts')->where('user_id', '=', $user_id)->count();
-           if ($check_for_item_in_cart){
-               $count_item = DB::table('shopping_carts')->where('user_id','=', $user_id)->get();
-               foreach ($count_item as $item){
-                   $itemCount = $itemCount + $item->quantity*$item->product_price;
-               }
+       }else{
+           $user_id = CartTest::getIPAddress();
+       }
+       $check_for_item_in_cart = DB::table('shopping_carts')->where('user_id', '=', $user_id)->count();
+       if ($check_for_item_in_cart){
+           $count_item = DB::table('shopping_carts')->where('user_id','=', $user_id)->get();
+           foreach ($count_item as $item){
+               $itemCount = $itemCount + $item->quantity*$item->product_price;
            }
        }
        return $itemCount;
@@ -51,16 +57,19 @@ class ShoppingCart extends Model
        $delivery_charge = 0;
        if (Auth::user()){
            $user_id = \auth()->user()->id;
-           $check_for_item_in_cart = DB::table('shopping_carts')->where('user_id', '=', $user_id)->count();
-           if ($check_for_item_in_cart){
-               $count_item = DB::table('shopping_carts')->where('user_id','=', $user_id)->get();
-               foreach ($count_item as $item){
-                   $charge = $charge + $item->quantity*$item->product_price;
-                   if ($charge < 1000){
-                       $delivery_charge =  $delevery_charge_avove_1000 + $delivery_charge;
-                   }elseif ($charge > 1000){
-                       $delivery_charge = $delevery_charge_below_1000 + $delivery_charge;
-                   }
+       }
+       else{
+           $user_id = CartTest::getIPAddress();
+       }
+       $check_for_item_in_cart = DB::table('shopping_carts')->where('user_id', '=', $user_id)->count();
+       if ($check_for_item_in_cart){
+           $count_item = DB::table('shopping_carts')->where('user_id','=', $user_id)->get();
+           foreach ($count_item as $item){
+               $charge = $charge + $item->quantity*$item->product_price;
+               if ($charge < 1000){
+                   $delivery_charge =  $delevery_charge_avove_1000 + $delivery_charge;
+               }elseif ($charge > 1000){
+                   $delivery_charge = $delevery_charge_below_1000 + $delivery_charge;
                }
            }
        }
@@ -71,5 +80,7 @@ class ShoppingCart extends Model
         $grandTotal = (int) self::subTotal() + (int) self::deliveryCharge();
         return $grandTotal;
    }
-
+   public static function discountedPrice($discounted){
+       return $discounted;
+   }
 }

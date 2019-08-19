@@ -1,6 +1,6 @@
 @extends('layouts.pageLayout')
 @section('content')
-    <div class="hero-wrap hero-bread" style="background-image: url('https://images.pexels.com/photos/259200/pexels-photo-259200.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940');">
+    <div class="hero-wrap hero-bread" style="background-image: url('{{ url('images/').'/shop.png' }}');">
         <div class="container">
             <div class="row no-gutters slider-text align-items-center justify-content-center">
                 <div class="col-md-9 ftco-animate text-center">
@@ -82,6 +82,29 @@
                                     <span>Total</span>
                                     <span>Rs. {{ \App\ShoppingCart::grandTotal() }}</span>
                                 </p>
+                                <p class="d-flex ">
+                                    <span>Discounted Price </span>
+                                    <span>
+
+                                {{  $effected['msg'] }}
+                                        @if($effected['discount'])
+                                            Rs.
+                                            {{  $effected['discount'] }}
+                                        @endif
+                            </span>
+                                </p>
+                                {{--                                <form action="{{ route('discount') }}" method="POST">--}}
+{{--                                    @csrf--}}
+{{--                                    <div class="row align-items-end">--}}
+{{--                                        <div class="col-md-12">--}}
+{{--                                            <div class="form-group">--}}
+{{--                                                <label for="applycoupon">Apply coupon</label>--}}
+{{--                                                <input type="text" name="apply_coupon" id="apply_coupon" class="form-control" placeholder="">--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+{{--                                        <button  type="submit" class="btn btn-primary py-3 px-4">Apply Coupon</button>--}}
+{{--                                    </div>--}}
+{{--                                </form>--}}
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -104,7 +127,6 @@
                                         </ul>
                                     </div>
                                 @endif
-
                                 <form action="{{ url('pay') }}" method="POST" name="laravel_instamojo">
                                     {{ csrf_field() }}
                                     <input type="text" name="purpose" value="{{ \App\CheckOut::product_name_in_cart() }}"  hidden>

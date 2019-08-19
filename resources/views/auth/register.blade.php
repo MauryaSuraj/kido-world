@@ -1,7 +1,12 @@
 @extends('layouts.pageLayout')
 
 @section('content')
-<div class="container">
+    <style>
+        .form-control{
+            height: 40px !important;
+        }
+    </style>
+<div class="container my-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
@@ -38,6 +43,18 @@
                                 @enderror
                             </div>
                         </div>
+                        <div class="form-group row">
+                            <label for="phone" class="col-md-4 col-form-label text-md-right">{{ __('Phone No.') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="phone" type="text" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ old('phone') }}" required autocomplete="phone">
+                                @error('phone')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
 
                         <div class="form-group row">
                             <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
@@ -52,15 +69,17 @@
                                 @enderror
                             </div>
                         </div>
-
-                        <div class="form-group row">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                        <div class="form-group row {{ $errors->has('CaptchaCode') ? ' has-error' : '' }}">
+                            <div class="col-md-6 offset-md-3">
+                                {!! captcha_image_html('ContactCaptcha') !!}
+                                <input class="form-control" type="text" id="CaptchaCode" name="CaptchaCode" style="margin-top:5px;">
+                                @if ($errors->has('CaptchaCode'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('CaptchaCode') }}</strong>
+                                    </span>
+                                @endif
                             </div>
                         </div>
-
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
